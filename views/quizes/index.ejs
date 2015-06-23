@@ -1,3 +1,12 @@
+<form method="get" action= "/quizes">
+	<a>Filtrar:</a>	<input type="text" name="search" value="Texto de busqueda..." /><input type="submit" value="Buscar" />
+</form>
+<% var text = "";
+	if(search && search != "")
+		text = "Resultada de la búsqueda \""+ search + "\"";
+%>
+	<%= text %>
+
 <table>
 <% var i;for(i=0;i<quizes.length; i++){%>
 	<tr><td><a href="quizes/<%=quizes[i].id %>"><%= quizes[i].pregunta %></a></td></tr>

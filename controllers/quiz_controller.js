@@ -18,9 +18,23 @@ exports.load = function(req, res, next, quizId){
 
 //GET /quizes
 exports.index = function(req, res){
-	models.Quiz.findAll().then(function(quizes){
-		res.render('quizes/index.ejs', {quizes:quizes});
-	});
+	var search = req.query.search;
+	console.log("search: "+ search);
+	if(search && search != ""){
+
+		var find = ' ';
+		var re = new RegExp(find, 'g');
+
+		var str = search.replace(re, '%');
+
+		models.Quiz.findAll({where: ["pregunta LIKE ?", "%" + str + "%"]}).then(function(quizes){
+			res.render('quizes/index.ejs', {search: search,quizes:quizes});
+		});
+	}else{
+		models.Quiz.findAll().then(function(quizes){
+			res.render('quizes/index.ejs', {search: search,quizes:quizes});
+		});
+	}
 }
 
 //GET /quizes/:id
