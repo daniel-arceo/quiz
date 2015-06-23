@@ -3,7 +3,7 @@ var models = require("../models/models.js");
 
 //Autoload
 exports.load = function(req, res, next, quizId){
-	models.Quiz.fincd(quizId).then(
+	models.Quiz.find(quizId).then(
 		function(quiz){
 			if(quiz){
 				req.quiz = quiz;
