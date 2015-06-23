@@ -8,9 +8,10 @@ exports.load = function(req, res, next, quizId){
 			if(quiz){
 				req.quiz = quiz;
 				next();
-			}else{new Error("No existe quizId=" + quizId));}
-		}
-		).catch(function(error){
+			}else{
+				new Error("No existe quizId=" + quizId);
+			}
+		}).catch(function(error){
 		next(error);
 	})
 }
@@ -32,7 +33,13 @@ exports.show = function(req, res){
 
 //GET /quizes/:id/answer
 exports.answer = function(req, res){
-	models.Quiz.find(req.params.quizId).then(function(quiz){
+	var resultado = "Incorrecto";
+	if(req.query.respuesta === req.quiz.respuesta){
+		resultado = "Correcto";
+	}
+	res.render("quizes/answer", {quiz: req.quiz, respuesta: resultado});
+
+	/*models.Quiz.find(req.params.quizId).then(function(quiz){
 		if(req.query.respuesta === quiz.respuesta){
 			res.render("quizes/answer", 
 				{quiz:quiz, respuesta: "Correcto"});
@@ -40,7 +47,7 @@ exports.answer = function(req, res){
 			res.render("quizes/answer", 
 				{quiz:quiz,respuesta: "Incorrecto"});
 		}
-	});
+	});*/
 };
 
 exports.author = function(req, res){
