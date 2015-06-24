@@ -1,13 +1,84 @@
-//GET /quizes/question
-exports.question = function(req, res){
-	res.render("quizes/question", {pregunta: "Capital de Italia"});
-}
+var fs = require('fs');
+var models = require("../models/models.js");
 
-//GET /quizes/answer
-exports.answer = function(req, res){
-	if(req.query.respuesta === "Roma"){
-		res.render("quizes/answer", {respuesta: "Correcto"});
-	}else {
-		res.render("quizes/answer", {respuesta: "Incorrecto"});
+//Autoload
+exports.load = function(req, res, next, quizId){
+	console.log("------------------> my quizId: " + quizId);
+	models.Quiz.find(quizId).then(
+		function(quiz){
+			if(quiz){
+				req.quiz = quiz;
+				console.log("BIEN");
+				next();
+			}else{
+				new Error("No existe quizId=" + quizId);
+			}
+		}).catch(function(error){
+			next(error);
+		})
+};
+
+//GET /quizes
+exports.index = function(req, res){
+	var search = req.query.search;
+	console.log("search: "+ search);
+	if(search && search != ""){
+		var find = ' ';
+		var re = new RegExp(find, 'g');
+
+		var str = search.replace(re, '%');
+
+		models.Quiz.findAll({where: ["pregunta LIKE ?", "%" + str + "%"]}).then(function(quizes){
+			res.render('quizes/index.ejs', {search: search,quizes:quizes});
+		});
+	}else{
+		models.Quiz.findAll().then(function(quizes){
+			res.render('quizes/index.ejs', {search: search,quizes:quizes});
+		});
 	}
-}
+};
+
+//GET /quizes/:id
+exports.show = function(req, res){
+
+	res.render("quizes/show", {quiz: req.quiz});
+	/*models.Quiz.findAll().success(function(quiz){
+		res.render("quizes/show", {quiz: quiz});
+	});*/	
+};
+
+//GET /quizes/:id/answer
+exports.answer = function(req, res){
+	var resultado = "Incorrecto";
+	if(req.query.respuesta === req.quiz.respuesta){
+		resultado = "Correcto";
+	}
+	res.render("quizes/answer", {quiz: req.quiz, respuesta: resultado});
+};
+
+exports.new = function(req, res){
+	var quiz = models.Quiz.build(//crea objeto quiz
+		{pregunta:"Pregunta", respuesta: "Respuesta"}
+		);
+	
+	res.render("quizes/new", {quiz: quiz});
+};
+//POST /quizes/create
+exports.create = function(req, res){
+	var  quiz = models.Quiz.build(req.body.quiz);
+	//save on the database the questions and answers
+	quiz.save({fields:["pregunta", "respuesta"]}).then(function(){
+		res.redirect("/quizes");
+	});
+};
+
+exports.author = function(req, res){
+	res.render("quizes/author");	
+};
+
+exports.profileimage = function(req, res){
+	console.log("profile image");
+	var img = fs.readFileSync('./public/profile_image.png');
+     res.writeHead(200, {'Content-Type': 'image/png' });
+     res.end(img, 'binary');
+};
