@@ -25,14 +25,17 @@
         <span><a href="/quizes/author">Author</a></span>
       </nav>
       <section class="main" id="s1">
-        <% if (errors.length) {%>
-          <span id='ErrorMsgs'>
-            Corregir errores:<br/>
-            <% for(var i in errors){ %>
-              <span><%=errors[i].message %></span>
-            <% }%>
-          </span>
-        <% }%>
+
+        <% if (typeof(errors) !== "undefined" && errors.length) {
+          var text = "";
+          text += "<span id='ErrorMsgs'>Corregir errores:<br/>";
+            
+            for(var i in errors){ 
+              text += "<span>" + errors[i].message + "</span>";
+            }
+          text += "</span>";
+        }%>
+        text
         <%-body%>
       </section>
       <footer class="main" id="f1">

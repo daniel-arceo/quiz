@@ -8,7 +8,6 @@ exports.load = function(req, res, next, quizId){
 		function(quiz){
 			if(quiz){
 				req.quiz = quiz;
-				console.log("BIEN");
 				next();
 			}else{
 				new Error("No existe quizId=" + quizId);
@@ -70,7 +69,7 @@ exports.create = function(req, res){
 	quiz.validate().then(
 		function(err){
 			if(err){
-				res.render("quizes/new", {})
+				res.render("quizes/new", {quiz:quiz, errors: err.errors});
 			}else{
 				//save on the database the questions and answers
 				quiz.save({fields:["pregunta", "respuesta"]}).then(function(){
