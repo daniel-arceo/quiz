@@ -88,6 +88,14 @@ exports.update = function(req, res){
 				});
 };
 
+exports.destroy = function(req, res){
+	req.quiz.destroy(function(){//success
+		res.redirect("/quizes");
+	}, function(error){//fail
+		next(error);
+	});
+};
+
 exports.author = function(req, res){
 	res.render("quizes/author");	
 };
