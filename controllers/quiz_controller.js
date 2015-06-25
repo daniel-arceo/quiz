@@ -57,7 +57,7 @@ exports.answer = function(req, res){
 
 exports.new = function(req, res){
 	var quiz = models.Quiz.build(//crea objeto quiz
-		{pregunta:"Pregunta", respuesta: "Respuesta", tema: "tema"}
+		{pregunta:"Pregunta", respuesta: "Respuesta", tema: "Tema"}
 		);
 	
 	res.render("quizes/new", {quiz: quiz, errors: []});
@@ -89,11 +89,6 @@ exports.update = function(req, res){
 };
 
 exports.destroy = function(req, res){
-	/*req.quiz.destroy(function(){//success
-		res.redirect("/quizes");
-	}, function(error){//fail
-		next(error);
-	});*/
 	req.quiz.destroy().then(function(){
 		res.redirect('/quizes');
 	}).catch(function(error){next(error)});
