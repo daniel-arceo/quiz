@@ -65,7 +65,7 @@ exports.new = function(req, res){
 //POST /quizes/create
 exports.create = function(req, res){
 	var  quiz = models.Quiz.build(req.body.quiz);
-	quiz.save({fields:["pregunta", "respuesta"]}).then(function(){
+	quiz.save({fields:["pregunta", "respuesta","tema"]}).then(function(){
 					res.redirect("/quizes");
 				}, function(err){
 					res.render("quizes/new", {quiz:quiz, errors: err.errors});
@@ -81,7 +81,7 @@ exports.update = function(req, res){
 	req.quiz.pregunta = req.body.quiz.pregunta;
 	req.quiz.respuesta = req.body.quiz.respuesta;
 
-	req.quiz.save({fields:["pregunta", "respuesta"]}).then(function(){
+	req.quiz.save({fields:["pregunta", "respuesta","tema"]}).then(function(){
 					res.redirect("/quizes");
 				}, function(err){
 					res.render("quizes/edit", {quiz:quiz, errors: err.errors});

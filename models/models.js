@@ -46,8 +46,6 @@ sequelize.sync().then(function(){
 						respuesta: 'Roma',
 						tema: "otro"
 			}).then(function(){cosole.log("Base de datos inicializada")})
-		}else{
-			console.log("miau");
 		}
 	});
 
