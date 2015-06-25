@@ -94,7 +94,7 @@ exports.destroy = function(req, res){
 	}, function(error){//fail
 		next(error);
 	});*/
-	req.quiz.destroy()then(function(){
+	req.quiz.destroy().then(function(){
 		res.redirect('/quizes');
 	}).catch(function(error){next(error)});
 };
