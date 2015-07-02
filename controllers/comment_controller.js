@@ -17,7 +17,6 @@ exports.load = function(req, res, next, commentId){
 
 //GET /quizes/:quizId/comments/new
 exports.new = function(req, res){
-	console.log("El id es " + req.params.quizId);
 	res.render('comments/new.ejs', {quizid: req.params.quizId, errors: []});
 };
 
@@ -34,9 +33,19 @@ exports.create = function(req, res){
 				});
 };
 
-exports.publish = function(req, res){
+// DELETE /quizes/:quizId
+exports.destroy = function(req, res) {
+	req.quiz.destroy().then( function () {
+		res.redirect('/quizes');
+	}).catch( function(error) { next(error)});
+	
+};
+
+// GET /quizes/:quizId/comments/:commentId/publish
+exports.publish = function(req, res) {
 	req.comment.publicado = true;
-	req.comment.save({fields: ["publicado"]}).then(
-		function(){res.redirect('/quizes/'+req.params.quizId);}
-		,function(error){next(error)});
+
+	req.comment.save({fields: ["publicado"]})
+		.then( function() {res.redirect('/quizes/'+req.params.quizId);})
+		.catch(function(error) {next(error)});
 };

@@ -1,3 +1,5 @@
+var models = require('../models/models.js');
+
 exports.loginRequired = function(req, res, next){
 	if(req.session.user){
 		next();
