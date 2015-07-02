@@ -9,6 +9,7 @@ exports.load = function(req, res, next, quizId){
 			include: [{model: models.Comment}]
 		}).then(function(quiz){
 			if(quiz){
+				console.log(quiz);
 				req.quiz = quiz;
 				next();
 			}else{
@@ -41,7 +42,6 @@ exports.index = function(req, res){
 
 //GET /quizes/:id
 exports.show = function(req, res){
-
 	res.render("quizes/show", {quiz: req.quiz});
 	/*models.Quiz.findAll().success(function(quiz){
 		res.render("quizes/show", {quiz: quiz});
