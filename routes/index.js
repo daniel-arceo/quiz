@@ -23,7 +23,6 @@ router.get('/login',	sessionController.new); 	// formulario login
 router.post('/login',	sessionController.create); 	// crear sesion
 router.get('/logout',	sessionController.destroy); // destruir sesion
 
-
 router.get('/quizes',						quizController.index);
 router.get('/quizes/:quizId(\\d+)',			quizController.show);
 router.get('/quizes/:quizId(\\d+)/answer', 	quizController.answer);
