@@ -61,3 +61,13 @@ nav span {margin:0px 10px 0px 0px;}
 .topic.tecnologia{
 	color: orange;
 }
+
+.right {
+    float: right;
+    text-align: right;
+    width: 100%;
+}
+
+.right a {
+    margin-left: 5px;
+}
