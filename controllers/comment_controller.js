@@ -27,7 +27,7 @@ exports.create = function(req, res){
 			QuizId: req.params.quizId
 		});
 	comment.save().then(function(){
-					res.redirect("/quizes/" + req.params.quizId);
+					res.redirect("/quizes2001/" + req.params.quizId);
 				}, function(err){
 					res.render("comments/new.ejs", {comment:comment, quizid: req.params.quizId, errors: err.errors});
 				});
