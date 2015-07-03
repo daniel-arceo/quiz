@@ -3,13 +3,11 @@ var models = require("../models/models.js");
 
 //Autoload
 exports.load = function(req, res, next, quizId){
-	console.log("------------------> my quizId: " + quizId);
 	models.Quiz.find({
 			where: {id: Number(quizId)},
 			include: [{model: models.Comment}]
 		}).then(function(quiz){
 			if(quiz){
-				console.log(quiz);
 				req.quiz = quiz;
 				next();
 			}else{
