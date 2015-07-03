@@ -30,10 +30,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res, next){
     if(!req.path.match(/\/login|\/logout/)){
         req.session.redir = req.path;
-    }
-
+    }    
     res.locals.session = req.session;
     next();
+});
+
+// MW para detectar inactividad y hacer logout
+app.use ( function(req, res, next) {    
+    if ( !req.session.user ) {
+        // No hay sesion 
+        next();        
+    }else{ // Hay sesion --> comprobamos tiempo de inactividad...
+
+        var now = new Date();
+        if ( req.session.timestamp ) {
+            var timestamp = new Date(req.session.timestamp);
+            var difTime = now.getTime()-timestamp.getTime();
+            if ( difTime > 120000 ) {
+                // se ha sobrepasado el tiempo de inactividad...            
+                delete req.session.timestamp;
+                delete req.session.user;            
+                req.session.errors = [{"message": 'Su sesión ha caducado'}];
+                res.redirect("/login");
+                return;
+            } 
+        } 
+
+        req.session.timestamp = now;
+        next();
+    }
+    
 });
 
 
