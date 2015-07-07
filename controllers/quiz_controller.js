@@ -20,7 +20,7 @@ exports.load = function(req, res, next, quizId){
 
 //GET /quizes
 exports.index = function(req, res){
-	var search = req.query.search;
+	/*var search = req.query.search;
 	console.log("search: "+ search);
 	if(search && search != ""){
 		var find = ' ';
@@ -31,19 +31,16 @@ exports.index = function(req, res){
 		models.Quiz.findAll({where: ["pregunta LIKE ?", "%" + str + "%"]}).then(function(quizes){
 			res.render('quizes/index.ejs', {search: search,quizes:quizes, errors: []});
 		});
-	}else{
+	}else{*/
 		models.Quiz.findAll().then(function(quizes){
-			res.render('quizes/index.ejs', {search: search,quizes:quizes, errors: []});
+			res.render('quizes/index.ejs', {search: false,quizes:quizes, errors: []});
 		});
-	}
+	//}
 };
 
 //GET /quizes/:id
 exports.show = function(req, res){
 	res.render("quizes/show", {quiz: req.quiz});
-	/*models.Quiz.findAll().success(function(quiz){
-		res.render("quizes/show", {quiz: quiz});
-	});*/	
 };
 
 //GET /quizes/:id/answer
