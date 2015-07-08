@@ -19,7 +19,7 @@ exports.load = function(req, res, next, quizId){
 };
 
 //GET /quizes
-exports.index = function(req, res){
+/*exports.index = function(req, res){
 	var search = req.query.search;
 	console.log("search: "+ search);
 	if(search && search != ""){
@@ -36,7 +36,28 @@ exports.index = function(req, res){
 			res.render('quizes/index.ejs', {search: search,quizes:quizes, errors: []});
 		});
 	}
+};*/
+exports.index = function(req, res){
+/* var search = req.query.search;
+search = false;
+console.log("search: "+ search);
+if(search && search != ""){
+var find = ' ';
+var re = new RegExp(find, 'g');
+
+var str = search.replace(re, '%');
+
+models.Quiz.findAll({where: ["pregunta LIKE ?", "%" + str + "%"]}).then(function(quizes){
+res.render('quizes/index.ejs', {search: search,quizes:quizes, errors: []});
+});
+}else{ */
+search = false;
+models.Quiz.findAll().then(function(quizes){
+res.render('quizes/index', {search: search,quizes:quizes, errors: []});
+});
+// }
 };
+
 
 //GET /quizes/:id
 exports.show = function(req, res){
