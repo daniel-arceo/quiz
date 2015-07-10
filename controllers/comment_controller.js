@@ -1,6 +1,7 @@
 var models = require('../models/models.js');
 
 exports.load = function(req, res, next, commentId){
+	console.log("commentId:   ----->   " + commentId);
 	models.Comment.find({
 		where:{
 			id: Number(commentId)
